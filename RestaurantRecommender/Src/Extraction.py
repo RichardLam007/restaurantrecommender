@@ -67,6 +67,7 @@ class Extractor:
             currLine = ast.literal_eval(tline)
         except:
             self.fileoffset = 0  #reset the offset into the file back to the beginning
+            f.close()
             return {}  #indicate there are no more reviews in the dataset
         
         #ignore all the entries about just the users
