@@ -9,7 +9,6 @@ class Extractor:
     #Constructor
     def __init__(self):
         self.users = dict()
-        #self.reviews = dict()
         self.businesses = dict()
         self.fileoffset = 0
     
@@ -18,11 +17,7 @@ class Extractor:
         f = open('tmpNFvucr', 'r')
     
         for lcurr in f:        
-            try:
-                line = ast.literal_eval(lcurr)
-            #some of the entries result in an issue with malformed strings for some reason
-            except ValueError:
-                continue
+            line = json.loads(lcurr)  #convert the string into a dictionary object
             
             if line['type'] == "user":
                 #add the user to the list if they are not already in it
@@ -36,9 +31,6 @@ class Extractor:
                     self.users[line['user_id']]['businesses'].append('business_id')
                 if line['review_id'] not in self.users[line['user_id']]['reviews']:
                     self.users[line['user_id']]['reviews'].append('review_id')
-                #if line['review_id'] not in self.reviews:
-                #    self.reviews.update({line['review_id'] : dict()})
-                #    self.reviews[line['review_id']].update({'attributes':[], 'business_id': line['business_id']})
             #if the entry is about a restaurant
             elif line['type'] == "business":
                 #add every unique and open business along with some information on them
@@ -57,18 +49,12 @@ class Extractor:
     def nextReview(self):
         f = open('tmpNFvucr', 'r')
         
-        #skip to the middle of the file according to the offset
+        #skip to the middle of the file according to the offset and obtain the entry
         f.seek(self.fileoffset)
         tline = f.readline().strip()
         while tline == "":
             tline = f.readline().strip() 
-        
-        try:
-            currLine = ast.literal_eval(tline)
-        except:
-            self.fileoffset = 0  #reset the offset into the file back to the beginning
-            f.close()
-            return {}  #indicate there are no more reviews in the dataset
+        currLine = json.loads(tline)  #convert the string into a dictionary object
         
         #ignore all the entries about just the users
         while currLine['type'] == "user":
