@@ -1,7 +1,7 @@
 '''
 Created on Apr 24, 2013
 
-@author: EliteCrew
+@author: Kathy
 '''
 import sys, traceback, ast
 
@@ -21,12 +21,13 @@ class Extractor:
             except ValueError:
                 continue
     
-            #if the entry is about a user's review
-            if line['type'] == "review":
+            if line['type'] == "user":
                 #add the user to the list if they are not already in it
                 if line['user_id'] not in self.users:
                     self.users.update({line['user_id']: dict()})
-                    self.users[line['user_id']].update({'reviews': [], 'businesses': []})
+                    self.users[line['user_id']].update({'name': line['name'], 'reviews': [], 'businesses': []})                
+            #if the entry is about a user's review
+            elif line['type'] == "review":
                 #add each restaurant the user has visited to that user's list    
                 if line['business_id'] not in self.users[line['user_id']]['businesses']:
                     self.users[line['user_id']]['businesses'].append('business_id')
@@ -42,17 +43,4 @@ class Extractor:
                     self.businesses.update({line['business_id']: dict()})
                     self.businesses[line['business_id']].update({'name': line['name'], 'state': line['state'], 'city': line['city'], 'categories': ast.literal_eval(line['categories']) })       
         f.close()     
-        
-        
-def main():
-    ext = Extractor()
-    
-    
-if __name__ == '__main__':
-    try:
-        main()
-    except:
-        print 'Error: ', str(sys.exc_info()[0])
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        print 'Description: ', str(exc_value)
-        traceback.print_tb(exc_traceback, limit=10, file=sys.stdout)       
+  
