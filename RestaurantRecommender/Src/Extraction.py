@@ -5,7 +5,7 @@ Created on Apr 24, 2013
 '''
 import sys, traceback, ast, json
 
-class Extractor:
+class Extraction:
     #Constructor
     def __init__(self):
         self.users = dict()
