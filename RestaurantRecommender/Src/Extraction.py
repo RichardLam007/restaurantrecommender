@@ -36,10 +36,10 @@ class Extraction:
                     self.users[line['user_id']]['reviews'].append('review_id')
             #if the entry is about a restaurant
             elif line['type'] == "business":
-                #add every unique and open business along with some information on them
-                if line['business_id'] not in self.businesses and line['open'] == "true":
+                #add every unique business along with some information on them
+                if line['business_id'] not in self.businesses:
                     self.businesses.update({line['business_id']: dict()})
-                    self.businesses[line['business_id']].update({'name': line['name'], 'state': line['state'], 'city': line['city'], 'categories': ast.literal_eval(line['categories']) })       
+                    self.businesses[line['business_id']].update({'name': line['name'], 'state': line['state'], 'city': line['city'], 'categories': line['categories'] })      
         f.close()
 
         #Store the dictionaries as json objects
