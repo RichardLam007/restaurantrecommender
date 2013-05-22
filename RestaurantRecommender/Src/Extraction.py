@@ -7,15 +7,18 @@ import sys, traceback, ast, json
 
 class Extraction:
     #Constructor
-    def __init__(self):
-        self.users = dict()
-        self.businesses = dict()
-        self.fileoffset = 0
+    def __init__(self, userFile, busFile):
+        self.users = dict()  #stores the information on the users
+        self.businesses = dict()  #stores the information on the businesses
+        self.fileoffset = 0  #used for retrieving the reviews from the dataset
+        self.userFilename = userFile  #stores the filename for the file containing the user info
+        self.busFilename = busFile  #stores the filename for the file containing the business info
     
     #Extract the necessary information on the users and restaurants
     def extractInfo(self):
         f = open('tmpNFvucr', 'r')
     
+        #read each line in the file to retrieve the necessary info
         for lcurr in f:        
             line = json.loads(lcurr)  #convert the string into a dictionary object
             
@@ -40,10 +43,10 @@ class Extraction:
         f.close()
 
         #Store the dictionaries as json objects
-        with open('userinfo.json', 'w') as outfile:
+        with open(self.userFilename, 'w') as outfile:
             json.dump(self.users, outfile)
-        with open('bussinfo.json', 'w') as outfile:
-            json.dump(self.businesses, outfile)     
+        with open(self.busFilename, 'w') as outfile:
+            json.dump(self.businesses, outfile)      
 
     #Obtain the next review entry from the dataset
     def nextReview(self):
