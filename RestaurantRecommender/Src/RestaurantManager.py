@@ -34,7 +34,7 @@ class RestaurantManager:
             #map each possible filename to a restaurant set
             if filename not in self.restaurantSets:
                 self.restaurantSets.update({filename : RestaurantSet(filename)})
-            self.restaurantSets[filename].appendRestaurant(Restaurant(rest))  #add the restaurant to the appropriate set
+            self.restaurantSets[filename].appendRestaurant(Restaurant(rest), rest)  #add the restaurant to the appropriate set
             
     def obtainSet(self, setIndex):
         '''
@@ -57,4 +57,14 @@ class RestaurantManager:
             allSets.update({setFilename : restSetObj})  #Insert this set into a temporary dictionary
         
         return allSets
+    
+    def returnRestaurant(self, restID):
+        '''
+        return the Restaurant object for the specified restaurant
+        '''
+        filename = ord(rest[-1]) #use the ascii value of the last character in the businessID for the filename
+        restSet = self.restaurantSets[filename]  #obtain the restaurant set containing this restaurant
+        restObj = restSet.returnRestaurantObj(restID)  #obtain the restaurant object
+        
+        return restObj
         

@@ -11,19 +11,31 @@ class RestaurantSet:
         '''
         Constructor
         '''
-        self.restaurants = []  #stores the set of restaurants
+        self.restaurants = dict()  #stores the set of restaurants
         self.filename = setFilename
     
-    def appendRestaurant(self, restaurantObj):
+    def appendRestaurant(self, restaurantObj, restID):
         '''
-        Add a restaurant to the set
+        Add the restaurant to the set
         '''
-        self.restaurants.append(restaurantObj)
+        self.restaurants.update({restID : restaurantObj})
         
     def obtainFilename(self):
         '''
         Return the name of the file used to store this object
         '''
         return self.filename
+    
+    def returnRestaurants(self):
+        '''
+        Return the dictionary of all the restaurants within this set
+        '''
+        return self.restaurants
+    
+    def returnRestaurantObj(self, restID):
+        '''
+        Return the Restaurant object for the specified restaurant
+        '''
+        return self.restaurants[restID]
         
     
