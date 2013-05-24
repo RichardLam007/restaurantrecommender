@@ -1,7 +1,7 @@
 '''
 Created on May 20, 2013
 
-@author: EliteCrew
+@author: Richard
 '''
 from math import sqrt
 
@@ -17,7 +17,7 @@ class Attributes:
         '''
         return the computed addition of the two given attributes
         '''
-        return base + additive/(sqrt(base))
+        return base + additive/(sqrt(abs(base)))
     
     def printAttributes(self):
         '''
