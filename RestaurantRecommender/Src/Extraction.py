@@ -14,7 +14,7 @@ class Extraction:
         Constructor
         '''
         self.users = dict()  #stores the information on the users
-        self.businesses = dict()  #stores the information on the businesses
+        self.businesses = dict()  #stores the information on the restaurants
         self.fileoffset = 0  #used for retrieving the reviews from the dataset
         self.userFilename = userFile  #stores the filename for the file containing the user info
         self.bussFilename = bussFile  #stores the filename for the file containing the business info
@@ -42,10 +42,10 @@ class Extraction:
                     self.users[line['user_id']]['businesses'].append('business_id')
                 if line['review_id'] not in self.users[line['user_id']]['reviews']:
                     self.users[line['user_id']]['reviews'].append('review_id')
-            #if the entry is about a restaurant
+            #if the entry is about a business
             elif line['type'] == "business":
-                #add every unique business along with some information on them
-                if line['business_id'] not in self.businesses:
+                #add every unique restaurant along with some information on them
+                if line['business_id'] not in self.businesses and "Restaurants" in line['categories']:
                     self.businesses.update({line['business_id']: dict()})
                     self.businesses[line['business_id']].update({'name': line['name'], 'state': line['state'], 'city': line['city'], 'categories': line['categories'] })      
         f.close()
