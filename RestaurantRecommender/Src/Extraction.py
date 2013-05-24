@@ -6,16 +6,24 @@ Created on Apr 24, 2013
 import sys, traceback, ast, json
 
 class Extraction:
-    #Constructor
+    '''
+    Class that extracts the necessary information from the dataset
+    '''
     def __init__(self, userFile, bussFile):
+        '''
+        Constructor
+        '''
         self.users = dict()  #stores the information on the users
         self.businesses = dict()  #stores the information on the businesses
         self.fileoffset = 0  #used for retrieving the reviews from the dataset
         self.userFilename = userFile  #stores the filename for the file containing the user info
         self.bussFilename = bussFile  #stores the filename for the file containing the business info
     
-    #Extract the necessary information on the users and restaurants
+    
     def extractInfo(self):
+        '''
+        Extract the necessary information on the users and restaurants
+        '''
         f = open('tmpNFvucr', 'r')
     
         #read each line in the file to retrieve the necessary info
@@ -48,8 +56,11 @@ class Extraction:
         with open(self.bussFilename, 'w') as outfile:
             json.dump(self.businesses, outfile)      
 
-    #Obtain the next review entry from the dataset
+
     def nextReview(self):
+        '''
+        Obtain the next review entry from the dataset
+        '''    
         f = open('tmpNFvucr', 'r')
         
         #skip to the middle of the file according to the offset and obtain the entry
@@ -74,22 +85,34 @@ class Extraction:
         f.close()
         return currLine
     
-    #Retrieve the dictionary on the users from the file
+    
     def obtainUserInfo(self):
+        '''
+        Retrieve the dictionary on the users from the file
+        '''        
         userInfo = json.load(open(self.userFilename, 'r'))
         return userInfo
     
-    #Retrieve the dictionary on the restaurants from the file
+
     def obtainBussInfo(self):
+        '''
+        Retrieve the dictionary on the restaurants from the file
+        '''
         bussInfo = json.load(open(self.bussFilename, 'r'))
         return bussInfo 
     
-    #Obtain a specific data member of the user dictionary
+
     def obtainUserContent(self, userID, category):
+        '''
+        Obtain a specific data member of the user dictionary
+        '''
         userDict = self.obtainUserInfo()
         return userDict[userID][category]
     
-    #Obtain a specific data member of the restaurant dictionary
+
     def obtainBussContent(self, bussID, category):
+        '''
+        Obtain a specific data member of the restaurant dictionary
+        '''
         bussDict = self.obtainBussInfo()
         return bussDict[bussID][category]
