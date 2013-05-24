@@ -38,7 +38,7 @@ class Restaurant:
     
     def appendReason(self, reason):
         '''
-        Adds a user's reason for vising the restaurant to the list of reasons
+        Adds a user's reason for visiting the restaurant to the list of reasons
         '''
         self.reasons.append(reason)
         
