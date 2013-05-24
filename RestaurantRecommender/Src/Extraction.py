@@ -44,8 +44,8 @@ class Extraction:
                     self.users[line['user_id']]['reviews'].append('review_id')
             #if the entry is about a business
             elif line['type'] == "business":
-                #add every unique restaurant along with some information on them
-                if line['business_id'] not in self.businesses and "Restaurants" in line['categories']:
+                #add every unique restaurant or bar along with some information on them
+                if line['business_id'] not in self.businesses and ("Restaurants" in line['categories'] or "Food" in line['categories'] or "Bars" in line['categories']):
                     self.businesses.update({line['business_id']: dict()})
                     self.businesses[line['business_id']].update({'name': line['name'], 'state': line['state'], 'city': line['city'], 'categories': line['categories'] })      
         f.close()
