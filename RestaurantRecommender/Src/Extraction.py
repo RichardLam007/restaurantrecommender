@@ -7,12 +7,12 @@ import sys, traceback, ast, json
 
 class Extraction:
     #Constructor
-    def __init__(self, userFile, busFile):
+    def __init__(self, userFile, bussFile):
         self.users = dict()  #stores the information on the users
         self.businesses = dict()  #stores the information on the businesses
         self.fileoffset = 0  #used for retrieving the reviews from the dataset
         self.userFilename = userFile  #stores the filename for the file containing the user info
-        self.busFilename = busFile  #stores the filename for the file containing the business info
+        self.bussFilename = bussFile  #stores the filename for the file containing the business info
     
     #Extract the necessary information on the users and restaurants
     def extractInfo(self):
@@ -45,7 +45,7 @@ class Extraction:
         #Store the dictionaries as json objects
         with open(self.userFilename, 'w') as outfile:
             json.dump(self.users, outfile)
-        with open(self.busFilename, 'w') as outfile:
+        with open(self.bussFilename, 'w') as outfile:
             json.dump(self.businesses, outfile)      
 
     #Obtain the next review entry from the dataset
@@ -73,3 +73,23 @@ class Extraction:
         
         f.close()
         return currLine
+    
+    #Retrieve the dictionary on the users from the file
+    def obtainUserInfo(self):
+        userInfo = json.load(open(self.userFilename, 'r'))
+        return userInfo
+    
+    #Retrieve the dictionary on the restaurants from the file
+    def obtainBussInfo(self):
+        bussInfo = json.load(open(self.bussFilename, 'r'))
+        return bussInfo 
+    
+    #Obtain a specific data member of the user dictionary
+    def obtainUserContent(self, userID, category):
+        userDict = self.obtainUserInfo()
+        return userDict[userID][category]
+    
+    #Obtain a specific data member of the restaurant dictionary
+    def obtainBussContent(self, bussID, category):
+        bussDict = self.obtainBussInfo()
+        return bussDict[bussID][category]
