@@ -8,9 +8,10 @@ from nltk.tag import pos_tag
 
 class ComponentThree:
     
-    def __init__(self, extractionObject):
+    def __init__(self, extractionObject, restaurantManager):
         self.extraction = extractionObject
         self.restaurantAttributes = dict()
+        self.restaurantManager = restaurantManager
         
     def processReview(self, reviewText):
         '''
@@ -21,14 +22,25 @@ class ComponentThree:
         taggedWords = pos_tag(reviewWords)
         
         # do a lot more stuff
+        adjectives = list()
+        reasons = list()
+        
+        ################
+        #NOT WORKING YET
+        ################
+
+        
+        return adjectives, reasons
+        
+        
         
     def processReviews(self):
         while True:
             review = self.extraction.nextReview()
             if len(review) == 0:
                 return
-            newAttributes = self.processReview(review['text'])
+            newAttributes, newReasons = self.processReview(review['text'])
             
-            #check if existing attributes exist for restaurant. if exists, grab it
-            #append new attributes to existing attributes if exists
-            #else set attributes for restaurant
+            restaurantObj = self.restaurantManager.returnRestaurant(review['business_id'])
+            restaurantObj.appendReasons(newReasons)
+            restaurantObj.appendAttributes(newAttributes)
