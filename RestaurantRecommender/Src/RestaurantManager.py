@@ -62,7 +62,7 @@ class RestaurantManager:
         '''
         return the Restaurant object for the specified restaurant
         '''
-        filename = ord(rest[-1]) #use the ascii value of the last character in the businessID for the filename
+        filename = ord(restID[-1]) #use the ascii value of the last character in the businessID for the filename
         restSet = self.restaurantSets[filename]  #obtain the restaurant set containing this restaurant
         restObj = restSet.returnRestaurantObj(restID)  #obtain the restaurant object
         
