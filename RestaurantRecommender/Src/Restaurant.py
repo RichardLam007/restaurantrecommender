@@ -16,7 +16,7 @@ class Restaurant:
         '''
         self.restDict = dict()  #stores the basic info about the restaurant
         self.attributes = dict()  #stores the attributes for the restaurant
-        self.reasons = []  #list of reasons for visiting the restaurant
+        self.reasons = dict()  #stores the reasons for visiting the restaurant
         self.rank = 0  #store the overall rank of the restaurant
     
     def returnAttributes(self):
@@ -37,15 +37,19 @@ class Restaurant:
         '''
         return self.reasons   
     
-    def appendReason(self, reason):
+    def appendReason(self, visitReasons):
         '''
-        Adds a user's reason for visiting the restaurant to the list of reasons
+        Adds the reasons users visit the restaurant
         '''
-        self.reasons.append(reason)
+        for vReason in visitReasons:
+            if vReason in self.reasons:
+                self.reasons[vReason] = self.additionFormula(self.reasons[vReason], visitReasons[vReason])  
+            else:
+                self.reasons[vReason] = visitReasons[vReason]              
         
-    def attributeAdditionFormula(self, base, additive):
+    def additionFormula(self, base, additive):
         '''
-        return the computed addition of the two given attributes
+        return the computed addition of the two given attributes/reasons
         '''
         return base + additive/(sqrt(abs(base)))
     
@@ -64,7 +68,7 @@ class Restaurant:
         '''
         for newAttribute in newAttributes.iterkeys:
             if newAttribute in self.attributes:
-                self.attributes[newAttribute] = self.attributeAdditionFormula(self.attributes[newAttribute], newAttributes[newAttribute])
+                self.attributes[newAttribute] = self.additionFormula(self.attributes[newAttribute], newAttributes[newAttribute])
                 self.rank = self.attributes[newAttribute]
             else:
                 self.attributes[newAttribute] = newAttributes[newAttribute]
