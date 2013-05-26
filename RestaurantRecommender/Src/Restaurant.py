@@ -17,7 +17,6 @@ class Restaurant:
         self.restDict = dict()  #stores the basic info about the restaurant
         self.attributes = dict()  #stores the attributes for the restaurant
         self.reasons = dict()  #stores the reasons for visiting the restaurant
-        self.rank = 0  #store the overall rank of the restaurant
     
     def returnAttributes(self):
         '''
@@ -69,13 +68,7 @@ class Restaurant:
         for newAttribute in newAttributes.iterkeys:
             if newAttribute in self.attributes:
                 self.attributes[newAttribute] = self.additionFormula(self.attributes[newAttribute], newAttributes[newAttribute])
-                self.rank = self.attributes[newAttribute]
             else:
                 self.attributes[newAttribute] = newAttributes[newAttribute]
-    
-    def returnRank(self):
-        '''
-        Return the overall rank for the restaurant based on the attributes for it
-        '''
-        return self.rank
+
         
