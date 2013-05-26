@@ -9,10 +9,11 @@ class Extraction:
     '''
     Class that extracts the necessary information from the dataset
     '''
-    def __init__(self, userFile, bussFile):
+    def __init__(self, dataFile, userFile, bussFile):
         '''
         Constructor
         '''
+        self.dataFile = dataFile
         self.users = dict()  #stores the information on the users
         self.businesses = dict()  #stores the information on the restaurants
         self.fileoffset = 0  #used for retrieving the reviews from the dataset
@@ -64,7 +65,7 @@ class Extraction:
         '''  
         reviewFound = False  #flag for whether or not the next review could be found  
         while reviewFound == False:
-            f = open('tmpNFvucr', 'r')
+            f = open(self.dataFile, 'r')
             
             #skip to the middle of the file according to the offset and obtain the entry
             f.seek(self.fileoffset)
