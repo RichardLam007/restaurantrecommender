@@ -28,7 +28,7 @@ class Recommendation:
         allBussDict = self.extractor.obtainBussInfo()  #get the dictionary on all restaurants in the dataset
         #for each of the restaurants in the dataset calculate its rank and attempt to add it into the heap
         for bussid in allBussDict:
-            restObj = restManaObj.returnRestaurant(bussid)  #get the restaurant object for this restaurant
+            restObj = self.restManager.returnRestaurant(bussid)  #get the restaurant object for this restaurant
             bussAttriDict = returnAttributes()  #get the attributes of the restaurant
             bussReasonDict = restObj.returnReasons()  #get the reasons for going to the restaurant
             bussCatList = restObj.returnRestaurantData('categories')  #get the restaurant's categories
