@@ -25,7 +25,7 @@ class Extraction:
         '''
         Extract the necessary information on the users and restaurants
         '''
-        f = open('tmpNFvucr', 'r')
+        f = open(self.dataFile, 'r')
     
         #read each line in the file to retrieve the necessary info
         for lcurr in f:        
