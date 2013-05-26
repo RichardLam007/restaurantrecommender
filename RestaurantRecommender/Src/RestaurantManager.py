@@ -34,7 +34,7 @@ class RestaurantManager:
             #map each possible filename to a restaurant set
             if filename not in self.restaurantSets:
                 self.restaurantSets.update({filename : RestaurantSet.RestaurantSet(filename)})
-            self.restaurantSets[filename].appendRestaurant(Restaurant.Restaurant(rest), rest)  #add the restaurant to the appropriate set
+            self.restaurantSets[filename].appendRestaurant(Restaurant.Restaurant(), rest)  #add the restaurant to the appropriate set
             
     def obtainSet(self, setIndex):
         '''
