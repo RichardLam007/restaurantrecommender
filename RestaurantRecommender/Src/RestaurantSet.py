@@ -36,6 +36,8 @@ class RestaurantSet:
         '''
         Return the Restaurant object for the specified restaurant
         '''
+        if restID not in self.restaurants:
+            return None
         return self.restaurants[restID]
         
     

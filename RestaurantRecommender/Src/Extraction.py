@@ -40,9 +40,9 @@ class Extraction:
             if line['type'] == "review":
                 #add each restaurant the user has visited to that user's list    
                 if line['business_id'] not in self.users[line['user_id']]['businesses']:
-                    self.users[line['user_id']]['businesses'].append('business_id')
+                    self.users[line['user_id']]['businesses'].append(line['business_id'])
                 if line['review_id'] not in self.users[line['user_id']]['reviews']:
-                    self.users[line['user_id']]['reviews'].append('review_id')
+                    self.users[line['user_id']]['reviews'].append(line['review_id'])
             #if the entry is about a business
             elif line['type'] == "business":
                 #add every unique restaurant or bar along with some information on them

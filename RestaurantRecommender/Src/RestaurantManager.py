@@ -22,7 +22,7 @@ class RestaurantManager:
         '''
         for restSet in self.restaurantSets:
             setFilename = self.restaurantSets[restSet].obtainFilename()
-            pickle.dump(restSet, open(setFilename, 'w'))
+            pickle.dump(restSet, open(str(setFilename), 'w'))
     
     def createSets(self):
         '''
@@ -41,7 +41,7 @@ class RestaurantManager:
         Return the set of restaurants
         '''
         setFilename = self.restaurantSets[setIndex].obtainFilename()
-        fileset = pickle.load(open(setFilename,'r'))
+        fileset = pickle.load(open(str(setFilename),'r'))
         return fileset
     
     def obtainAllSets(self):
@@ -53,7 +53,7 @@ class RestaurantManager:
         #Generate the dictionary containing all the restaurant sets
         for restSet in self.restaurantSets:
             setFilename = self.restaurantSets[restSet].obtainFilename()
-            restSetObj = pickle.load(open(setFilename, 'r'))  #Obtain the set from the file
+            restSetObj = pickle.load(open(str(setFilename), 'r'))  #Obtain the set from the file
             allSets.update({setFilename : restSetObj})  #Insert this set into a temporary dictionary
         
         return allSets
