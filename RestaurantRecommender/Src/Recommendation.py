@@ -29,7 +29,7 @@ class Recommendation:
         #for each of the restaurants in the dataset calculate its rank and attempt to add it into the heap
         for bussid in allBussDict:
             restObj = self.restManager.returnRestaurant(bussid)  #get the restaurant object for this restaurant
-            bussAttriDict = returnAttributes()  #get the attributes of the restaurant
+            bussAttriDict = restObj.returnAttributes()  #get the attributes of the restaurant
             bussReasonDict = restObj.returnReasons()  #get the reasons for going to the restaurant
             bussCatList = restObj.returnRestaurantData('categories')  #get the restaurant's categories
             restName = restObj.returnRestaurantData('name')  #get the name of the restaurant
@@ -37,9 +37,9 @@ class Recommendation:
             numMatches = 0  #counter for the number of matching properties with restaurants the user has visited
             
             #for every matching attribute append attribute value to total
-            for attr in busAttriDict:
+            for attr in bussAttriDict:
                 if attr in attributeDict:
-                    rankVal = rankVal + busAttriDict[attr]
+                    rankVal = rankVal + bussAttriDict[attr]
                     numMatches = numMatches + 1
             #for every matching reason append reason value to total
             for reason in bussReasonDict:
@@ -74,7 +74,7 @@ class Recommendation:
         categoryList = []  #stores the combined categories for the visited restaurants
         userBussList = self.extractor.obtainUserContent(self.userid, "businesses")  #get the dictionary of restaurants the user has visited
         for bussid in userBussList:
-            restObj = restManaObj.returnRestaurant(bussid)  #get the restaurant object for this restaurant
+            restObj = self.restManager.returnRestaurant(bussid)  #get the restaurant object for this restaurant
             attributeDict.append(restObj.returnAttributes())  #get the attributes of the restaurant
             reasonDict.append(restObj.returnReasons())  #get the reasons for going to the restaurant
             categoryList = list(set(categoryList + restObj.returnRestaurantData('categories')))  #get the restaurant's categories
