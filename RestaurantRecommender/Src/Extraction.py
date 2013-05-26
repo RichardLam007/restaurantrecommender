@@ -59,7 +59,7 @@ class Extraction:
 
     def nextReview(self):
         '''
-        Obtain the next review entry from the dataset
+        Obtain the next review entry (a dictionary) from the dataset
         '''    
         f = open('tmpNFvucr', 'r')
         
@@ -105,6 +105,9 @@ class Extraction:
     def obtainUserContent(self, userID, category):
         '''
         Obtain a specific data member of the user dictionary
+        If category = 'name' then a string containing the user's name will be returned 
+        If category = 'reviews' then a list of the review_ids of the reviews the user has made will be returned
+        If category = 'businesses' then a list of the business_ids of the restaurants the user has visited will be returned
         '''
         userDict = self.obtainUserInfo()
         return userDict[userID][category]
@@ -113,6 +116,10 @@ class Extraction:
     def obtainBussContent(self, bussID, category):
         '''
         Obtain a specific data member of the restaurant dictionary
+        If category = 'name' then a string containing the restaurant's name will be returned
+        If category = 'state' then a string containing the state the restaurant is located in will be returned
+        If category = 'city' then a string containing the city the restaurant is located in will be returned
+        if category = 'categories' then a list containing the categories of the restaurant will be returned
         '''
         bussDict = self.obtainBussInfo()
         return bussDict[bussID][category]
