@@ -59,30 +59,38 @@ class Extraction:
 
     def nextReview(self):
         '''
-        Obtain the next review entry (a dictionary) from the dataset
-        '''    
-        f = open('tmpNFvucr', 'r')
+        Obtain the next review entry (a dictionary) on a restaurant/bar from the dataset
+        If an entry is not about a restaurant/bar then it is skipped over
+        '''  
+        reviewFound = False  #flag for whether or not the next review could be found  
+        while reviewFound == False:
+            f = open('tmpNFvucr', 'r')
+            
+            #skip to the middle of the file according to the offset and obtain the entry
+            f.seek(self.fileoffset)
+            tline = f.readline().strip()
+            while tline == "":
+                tline = f.readline().strip() 
+            currLine = json.loads(tline)  #convert the string into a dictionary object
+            
+            #ignore all the entries about just the users
+            while currLine['type'] == "user":
+                currLine = ast.literal_eval(f.readline())
+            
+            #return an empty dictionary if there are no more reviews in the dataset
+            if currLine['type'] == "business":
+                currLine = {}
+                reviewFound = True
+                self.fileoffset = 0  #reset the offset into the file back to the beginning
+            #otherwise adjust the offset into the file for the next read  
+            else:
+                #only indicate that a review was found if it is either a restaurant or a bar
+                if currLine['business_id'] in self.obtainBussInfo():
+                    reviewFound = True
+                self.fileoffset = f.tell() - 1
+            
+            f.close()
         
-        #skip to the middle of the file according to the offset and obtain the entry
-        f.seek(self.fileoffset)
-        tline = f.readline().strip()
-        while tline == "":
-            tline = f.readline().strip() 
-        currLine = json.loads(tline)  #convert the string into a dictionary object
-        
-        #ignore all the entries about just the users
-        while currLine['type'] == "user":
-            currLine = ast.literal_eval(f.readline())
-        
-        #return an empty dictionary if there are no more reviews in the dataset
-        if currLine['type'] == "business":
-            currLine = {}
-            self.fileoffset = 0  #reset the offset into the file back to the beginning
-        #otherwise adjust the offset into the file for the next read  
-        else:
-            self.fileoffset = f.tell() - 1
-        
-        f.close()
         return currLine
     
     
