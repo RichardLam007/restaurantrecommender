@@ -71,9 +71,9 @@ class Vocabulary(object):
             self.visitTypesList.append(line.rstrip('\n')) 
         f.close()
             
-    def checkIfVisitType(self, word):
+    def isReasonForVisit(self, word):
         '''
-        Returns true if the specified word is a visit type
+        Returns true if the specified word is a reason for visiting
         '''
         if word in self.visitTypesList:
             return True
