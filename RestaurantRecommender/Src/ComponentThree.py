@@ -36,7 +36,7 @@ class ComponentThree:
                     adjective = self.vocabularyObject.getMatchingAntonymAdjective(word)
                     if not adjective == None:
                         adjectives[word] = -1
-            if POS in ["NN", "NNS", "FW"]
+            if POS in ["NN", "NNS", "FW"]:
                 if self.vocabularyObject.isReasonForVisit(word):
                     reasons.append(word)
         ################
