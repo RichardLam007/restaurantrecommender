@@ -5,11 +5,11 @@ Created on May 26, 2013
 '''
 import traceback, sys, Recommendation, RestaurantManager, Extraction, ComponentThree, Vocabulary, time
 
-def main():
-    #request for the user to input a userID
-    userid = raw_input("Enter the userID of the user to be recommended: ")
-    
-    userid = "JkeCKyEaQlbLd9uZYl4DjA"  #used for testing
+def performSetup():
+    '''
+    Perform the setups necessary for the recommendation process
+    Components #1-3 are performed here to obtain the wordlists, extract the raw data, and analyze the reviews
+    '''
     overallstart = time.clock()
     
     #Component #1: retrieve the necessary words used to analyze the reviews
@@ -24,7 +24,7 @@ def main():
     print 'Performing Component #2'
     start = time.clock()
     ext = Extraction.Extraction('tmpNFvucr', 'userinfo.json', 'busInfo.json')
-    #ext.extractInfo()
+    ext.extractInfo()
     end = time.clock()
     print 'Component #2 took: ' + str(end-start) + 'seconds'
     
@@ -39,6 +39,22 @@ def main():
     end = time.clock()
     print 'Component #3 took: ' + str(end-start) + 'seconds'
     
+    overallend = time.clock()
+    print 'The overall setup time took: ' + str(overallend - overallstart) + 'seconds'
+    
+    return ext, restManager
+
+def main():
+    '''
+    Requests for user input to begin the recommendation process and displays the top-N recommended restaurants
+    '''
+    ext, restManager = performSetup()  #perform the necessary setup for the recommendation
+    
+    #request for the user to input a userID
+    userid = raw_input("Enter the userID of the user to be recommended: ")
+    
+    userid = "JkeCKyEaQlbLd9uZYl4DjA"  #used for testing
+    
     #Component #4: use the previous results to determine the top-N results to recommend to the user
     print 'Performing Component #4'
     start = time.clock()
@@ -51,10 +67,6 @@ def main():
     print 'Recommending to: ' + userid
     for result in topResults:
         print 'Name: ' + result[0] + '  Ranking Value: ' + str(result[1])
-    
-    
-    overallend = time.clock()
-    print 'The overall recommendation time took: ' + str(overallend - overallstart) + 'seconds'
     
 if __name__ == '__main__':
     try:
