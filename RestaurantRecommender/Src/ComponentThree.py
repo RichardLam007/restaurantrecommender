@@ -5,14 +5,23 @@ Created on May 20, 2013
 '''
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
+from math import sqrt
 
 class ComponentThree:
     
-    def __init__(self, extractionObject, vocabularyObject, restaurantManagerObject):
+    def __init__(self, extractionObject, vocabularyObject, restaurantManagerObject, debug = False):
+        self.debug = debug
         self.extraction = extractionObject
         self.vocabularyObject = vocabularyObject
         self.restaurantAttributes = dict()
         self.restaurantManager = restaurantManagerObject
+        
+        
+    def additionFormula(self, base, additive):
+        '''
+        return the computed addition of the two given attributes/reasons
+        '''
+        return base + additive/(sqrt(abs(base)))
         
     def processReview(self, reviewText):
         '''
@@ -21,22 +30,29 @@ class ComponentThree:
         '''
         reviewWords = word_tokenize(reviewText)
         taggedWords = pos_tag(reviewWords)
-        # do a lot more stuff
         adjectives = dict()
         reasons = list()
         
         for row in taggedWords:
+            if self.debug == True:
+                print row
             word = row[0]
             POS = row[1]
-            if POS in ["JJ", "JJR"]:
-                adjective = self.vocabularyObject.getMatchingAdjective(word)
+            if POS in ["JJ", "JJR"]: #if verbs
+                adjective = self.vocabularyObject.getMatchingAdjective(word) #check for adjective via synonym
                 if not adjective == None:
-                    adjectives[word] = 1
+                    if word in adjectives:
+                        adjectives[word] = self.additionFormula(adjectives[word], 1)
+                    else:
+                        adjectives[word] = 1
                 else:
-                    adjective = self.vocabularyObject.getMatchingAntonymAdjective(word)
+                    adjective = self.vocabularyObject.getMatchingAntonymAdjective(word) #check for adjective via antonym
                     if not adjective == None:
-                        adjectives[word] = -1
-            if POS in ["NN", "NNS", "FW"]:
+                        if word in adjectives:
+                            adjectives[word] = self.additionFormula(adjectives[word], -1)
+                        else:
+                            adjectives[word] = -1
+            if POS in ["NN", "NNS", "FW"]: #if noun, foreign word
                 if self.vocabularyObject.isReasonForVisit(word):
                     reasons.append(word)
         ################
@@ -57,3 +73,5 @@ class ComponentThree:
             restaurantObj = self.restaurantManager.returnRestaurant(review['business_id'])
             restaurantObj.appendReasons(newReasons)
             restaurantObj.appendAttributes(newAttributes)
+            
+            
