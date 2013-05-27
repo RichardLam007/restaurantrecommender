@@ -87,7 +87,7 @@ class Vocabulary(object):
         if word in self.synonymDict:
             return self.synonymDict[word]
         else:
-            self.dumpPossibleNewAdjective(word)
+            #self.dumpPossibleNewAdjective(word)
             return None
 
        
@@ -176,5 +176,8 @@ class Vocabulary(object):
         if not word in f.read():
             f.close()
             f = open(self.possibleAdjectivesToAddFile, "a")
-            f.write(word + "\n")
+            try:
+                f.write(word + "\n")
+            except:
+                pass
         f.close()
