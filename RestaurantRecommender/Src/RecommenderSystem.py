@@ -82,7 +82,7 @@ def run():
     #display the top-N results
     print 'Recommending to: ' + userid
     for result in topResults:
-        print 'Name: ' + result[0] + '  Ranking Value: ' + str(result[1])
+        print 'Name: ' + result[1] + '  Ranking Value: ' + str(result[0])
     
 
 def main(command):

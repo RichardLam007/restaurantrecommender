@@ -60,10 +60,10 @@ class Recommendation:
             
             #if there are fewer than N results in the heap currently then add the restaurant to it
             if len(self.rankHeap) < int(self.topN):
-                heapq.heappush(self.rankHeap, (restName, restRankVal))
+                heapq.heappush(self.rankHeap, (restRankVal, restName))
             #otherwise only keep the set of restaurants with the N highest ranks in the heap
             else:
-                heapq.heappushpop(self.rankHeap, (restName, restRankVal))
+                heapq.heappushpop(self.rankHeap, (restRankVal, restName))
         
 
     def obtainVisitedProperties(self):
