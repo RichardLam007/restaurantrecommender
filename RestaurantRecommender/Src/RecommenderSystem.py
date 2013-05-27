@@ -5,6 +5,11 @@ Created on May 26, 2013
 '''
 import traceback, sys, Recommendation, RestaurantManager, Extraction, ComponentThree, Vocabulary, time
 
+extractionPath = "../extractionFiles/"
+restaurantPath = "../processedData/"
+redoVocab = False
+
+
 def performSetup():
     '''
     Perform the setups necessary for the recommendation process
@@ -16,14 +21,16 @@ def performSetup():
     print 'Performing Component #1'
     start = time.clock()
     vocab = Vocabulary.Vocabulary('../config/synonyms.csv', '../config/antonyms.csv', '../config/visit_wordlist.txt', '../config/possible_adjectives.txt')
-    vocab.saveSynonymAntonymLists()
+    if redoVocab == True:
+        vocab.getAllNewSynonymsAndAntonyms()
+        vocab.saveSynonymAntonymLists()
     end = time.clock()
     print 'Component #1 took: ' + str(end-start) + 'seconds\n'
     
     #Component #2: extract the information from the dataset
     print 'Performing Component #2'
     start = time.clock()
-    ext = Extraction.Extraction('tmpNFvucr', 'userinfo.json', 'busInfo.json')
+    ext = Extraction.Extraction(extractionPath + '/tmpNFvucr', extractionPath + '/userinfo.json', extractionPath + '/busInfo.json')
     ext.extractInfo()
     end = time.clock()
     print 'Component #2 took: ' + str(end-start) + 'seconds\n'
@@ -31,11 +38,12 @@ def performSetup():
     #Component #3: analyze the reviews
     print 'Performing Component #3'
     start = time.clock()
-    restManager = RestaurantManager.RestaurantManager(ext)
-    restManager.createSets()  #create the needed RestaurantSet and Restaurant objects
+    restManager = RestaurantManager.RestaurantManager(ext, restaurantPath, True)
+    #restManager.createSets()  #create the needed RestaurantSet and Restaurant objects
     compThree = ComponentThree.ComponentThree(ext, vocab, restManager)
-    compThree.processReviews()  #fill in the objects with information
-    restManager.storeSet()  #store the objects
+    compThree.processReviews(30)  #fill in the objects with information
+    restManager.debug()
+    
     end = time.clock()
     print 'Component #3 took: ' + str(end-start) + 'seconds\n'
     
@@ -44,12 +52,15 @@ def performSetup():
     
     return ext, restManager
 
-def main():
+def run():
     '''
     Requests for user input to begin the recommendation process and displays the top-N recommended restaurants
     For testing purposes the userID "JkeCKyEaQlbLd9uZYl4DjA" (which is in the dataset) can be used
     '''
-    ext, restManager = performSetup()  #perform the necessary setup for the recommendation
+    #ext, restManager = performSetup()  #perform the necessary setup for the recommendation
+    
+    ext = Extraction.Extraction(extractionPath + '/tmpNFvucr', extractionPath + '/userinfo.json', extractionPath + '/busInfo.json')
+    restManager = RestaurantManager.RestaurantManager(ext, restaurantPath)
     
     #request for the user to input a userID
     userid = raw_input("Enter the userID of the user to be recommended: ")
@@ -73,9 +84,17 @@ def main():
     for result in topResults:
         print 'Name: ' + result[0] + '  Ranking Value: ' + str(result[1])
     
+
+def main(command):
+    if command == "run":
+        run()
+    else:
+        if command == "setup":
+            performSetup()
+
 if __name__ == '__main__':
     try:
-        main()
+        main(sys.argv[1])
     except:
         print 'Error: ', str(sys.exc_info()[0])
         exc_type, exc_value, exc_traceback = sys.exc_info()

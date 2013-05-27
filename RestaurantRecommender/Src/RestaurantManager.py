@@ -9,15 +9,24 @@ class RestaurantManager:
     '''
     Class that handles the different sets of restaurants
     '''
-    def __init__(self, extObj):
+    def __init__(self, extObj, path, setUpPhase = False):
         '''
         Constructor
         '''
         self.restaurantSets = dict()  #stores the restaurant sets
         self.extractor = extObj #the Extraction object to retrieve the restaurant info
+        self.path = path
         
         self.createSets()  #create the different restaurant sets
-        self.restaurantSets = self.obtainAllSets()  #fill in the sets with data
+        
+        if setUpPhase == True:
+            self.storeSet()
+        else:
+            self.restaurantSets = self.obtainAllSets()  #fill in the sets with data
+    
+    def debug(self):
+        for restaurantSet in self.restaurantSets:
+            self.restaurantSets[restaurantSet].debug() 
     
     def storeSet(self):
         '''
@@ -25,7 +34,7 @@ class RestaurantManager:
         '''
         for restSet in self.restaurantSets:
             setFilename = self.restaurantSets[restSet].obtainFilename()
-            pickle.dump(restSet, open(str(setFilename), 'w'))
+            pickle.dump(restSet, open(str(self.path + setFilename), 'w'))
     
     def createSets(self):
         '''
@@ -33,7 +42,7 @@ class RestaurantManager:
         '''
         restDict = self.extractor.obtainBussInfo()  #get the dictionary of businesses
         for rest in restDict:
-            filename = ord(rest[-1]) #use the ascii value of the last character in the businessID for the filename
+            filename = rest[-1] #use the ascii value of the last character in the businessID for the filename
             #map each possible filename to a restaurant set
             if filename not in self.restaurantSets:
                 self.restaurantSets.update({filename : RestaurantSet.RestaurantSet(filename)})
@@ -44,7 +53,7 @@ class RestaurantManager:
         Return the set of restaurants
         '''
         setFilename = self.restaurantSets[setIndex].obtainFilename()
-        fileset = pickle.load(open(str(setFilename),'r'))
+        fileset = pickle.load(open(self.path + str(setFilename),'r'))
         return fileset
     
     def obtainAllSets(self):
@@ -56,7 +65,7 @@ class RestaurantManager:
         #Generate the dictionary containing all the restaurant sets
         for restSet in self.restaurantSets:
             setFilename = self.restaurantSets[restSet].obtainFilename()
-            restSetObj = pickle.load(open(str(setFilename), 'r'))  #Obtain the set from the file
+            restSetObj = pickle.load(open(self.path + str(setFilename), 'r'))  #Obtain the set from the file
             allSets.update({setFilename : restSetObj})  #Insert this set into a temporary dictionary
         
         return allSets
@@ -65,7 +74,7 @@ class RestaurantManager:
         '''
         return the Restaurant object for the specified restaurant
         '''
-        filename = ord(restID[-1]) #use the ascii value of the last character in the businessID for the filename
+        filename = restID[-1] #use the ascii value of the last character in the businessID for the filename
         restSet = self.restaurantSets[filename]  #obtain the restaurant set containing this restaurant
         restObj = restSet.returnRestaurantObj(restID)  #obtain the restaurant object
         

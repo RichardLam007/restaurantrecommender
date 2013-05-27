@@ -13,6 +13,13 @@ class RestaurantSet:
         '''
         self.restaurants = dict()  #stores the set of restaurants
         self.filename = setFilename
+        
+    def debug(self):
+        print "debugging restaurant set: " + self.filename
+        print "restaurant IDs: "
+        for restaurantID in self.restaurants:
+            print restaurantID 
+        print
     
     def appendRestaurant(self, restaurantObj, restID):
         '''
