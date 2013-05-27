@@ -34,7 +34,7 @@ class RestaurantManager:
         '''
         for restSet in self.restaurantSets:
             setFilename = self.restaurantSets[restSet].obtainFilename()
-            pickle.dump(restSet, open(str(self.path + setFilename), 'w'))
+            pickle.dump(self.restaurantSets[restSet], open(str(self.path + setFilename), 'w'))
     
     def createSets(self):
         '''
