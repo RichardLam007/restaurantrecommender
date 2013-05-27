@@ -20,3 +20,8 @@ service
 atmosphere
 decor
 ambience
+vegetarian
+vegan
+veggies
+meat
+aesthetics
