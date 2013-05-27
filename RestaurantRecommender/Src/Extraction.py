@@ -86,7 +86,7 @@ class Extraction:
             #otherwise adjust the offset into the file for the next read  
             else:
                 #only indicate that a review was found if it is either a restaurant or a bar
-                if currLine['business_id'] in self.obtainBussInfo():
+                if currLine['business_id'] in self.businesses:
                     reviewFound = True
                 self.fileoffset = f.tell() - 1
             
