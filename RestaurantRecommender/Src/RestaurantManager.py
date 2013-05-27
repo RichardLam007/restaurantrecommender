@@ -15,6 +15,9 @@ class RestaurantManager:
         '''
         self.restaurantSets = dict()  #stores the restaurant sets
         self.extractor = extObj #the Extraction object to retrieve the restaurant info
+        
+        self.createSets()  #create the different restaurant sets
+        self.restaurantSets = self.obtainAllSets()  #fill in the sets with data
     
     def storeSet(self):
         '''
