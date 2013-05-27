@@ -81,8 +81,8 @@ class Recommendation:
             restObj = self.restManager.returnRestaurant(bussid)  #get the restaurant object for this restaurant
             if restObj is None:
                 continue
-            attributeDict.append(restObj.returnAttributes())  #get the attributes of the restaurant
-            reasonDict.append(restObj.returnReasons())  #get the reasons for going to the restaurant
+            attributeDict.update(restObj.returnAttributes())  #get the attributes of the restaurant
+            reasonDict.update(restObj.returnReasons())  #get the reasons for going to the restaurant
             categoryList = list(set(categoryList + restObj.returnRestaurantData('categories')))  #get the restaurant's categories
         
         return attributeDict, reasonDict, categoryList
