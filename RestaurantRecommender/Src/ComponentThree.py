@@ -31,7 +31,7 @@ class ComponentThree:
         reviewWords = word_tokenize(reviewText)
         taggedWords = pos_tag(reviewWords)
         adjectives = dict()
-        reasons = list()
+        reasons = dict()
         
         for row in taggedWords:
             if self.debug == True:
@@ -54,7 +54,10 @@ class ComponentThree:
                             adjectives[word] = -1
             if POS in ["NN", "NNS", "FW"]: #if noun, foreign word
                 if self.vocabularyObject.isReasonForVisit(word):
-                    reasons.append(word)
+                    if word in reasons:
+                        reasons[word] = self.additionFormula(reasons[word], 1)
+                    else:
+                        reasons[word] = 1
         ################
         # NOT DONE YET
         ################
@@ -71,7 +74,8 @@ class ComponentThree:
             newAttributes, newReasons = self.processReview(review['text'])
             
             restaurantObj = self.restaurantManager.returnRestaurant(review['business_id'])
-            restaurantObj.appendReasons(newReasons)
-            restaurantObj.appendAttributes(newAttributes)
+            if not restaurantObj == None:
+                restaurantObj.appendReasons(newReasons)
+                restaurantObj.appendAttributes(newAttributes)
             
             
