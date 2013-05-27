@@ -52,7 +52,11 @@ class Recommendation:
                     rankVal = rankVal + 1
                     numMatches = numMatches + 1
             
-            restRankVal = rankVal / numMatches #calculate the average value (total_value/#matches) as the final ranking value 
+            #calculate the average value (total_value/#matches) as the final ranking value 
+            if numMatches != 0:
+                restRankVal = rankVal / numMatches
+            else:
+                restRankVal = 0
             
             #if there are fewer than N results in the heap currently then add the restaurant to it
             if len(self.rankHeap) < int(self.topN):

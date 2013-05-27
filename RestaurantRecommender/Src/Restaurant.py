@@ -10,11 +10,11 @@ class Restaurant:
     '''
     Stores information on the restaurant
     '''
-    def __init__(self):
+    def __init__(self, rDict):
         '''
         Constructor
         '''
-        self.restDict = dict()  #stores the basic info about the restaurant
+        self.restDict = rDict  #stores the basic info about the restaurant
         self.attributes = dict()  #stores the attributes for the restaurant
         self.reasons = dict()  #stores the reasons for visiting the restaurant
     

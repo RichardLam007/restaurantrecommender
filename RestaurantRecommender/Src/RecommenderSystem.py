@@ -18,7 +18,7 @@ def performSetup():
     vocab = Vocabulary.Vocabulary('../config/synonyms.csv', '../config/antonyms.csv', '../config/visit_wordlist.txt', '../config/possible_adjectives.txt')
     vocab.saveSynonymAntonymLists()
     end = time.clock()
-    print 'Component #1 took: ' + str(end-start) + 'seconds'
+    print 'Component #1 took: ' + str(end-start) + 'seconds\n'
     
     #Component #2: extract the information from the dataset
     print 'Performing Component #2'
@@ -26,7 +26,7 @@ def performSetup():
     ext = Extraction.Extraction('tmpNFvucr', 'userinfo.json', 'busInfo.json')
     ext.extractInfo()
     end = time.clock()
-    print 'Component #2 took: ' + str(end-start) + 'seconds'
+    print 'Component #2 took: ' + str(end-start) + 'seconds\n'
     
     #Component #3: analyze the reviews
     print 'Performing Component #3'
@@ -37,10 +37,10 @@ def performSetup():
     compThree.processReviews()  #fill in the objects with information
     restManager.storeSet()  #store the objects
     end = time.clock()
-    print 'Component #3 took: ' + str(end-start) + 'seconds'
+    print 'Component #3 took: ' + str(end-start) + 'seconds\n'
     
     overallend = time.clock()
-    print 'The overall setup time took: ' + str(overallend - overallstart) + 'seconds'
+    print 'The overall setup time took: ' + str(overallend - overallstart) + 'seconds\n'
     
     return ext, restManager
 
@@ -53,6 +53,12 @@ def main():
     #request for the user to input a userID
     userid = raw_input("Enter the userID of the user to be recommended: ")
     
+    #check if the user exists in the dataset or not
+    userDict = ext.obtainUserInfo()
+    if userid not in userDict:
+        print '\nThe user could not be found!'
+        return
+
     userid = "JkeCKyEaQlbLd9uZYl4DjA"  #used for testing
     
     #Component #4: use the previous results to determine the top-N results to recommend to the user
@@ -61,7 +67,7 @@ def main():
     rec = Recommendation.Recommendation(userid, ext, restManager, 10)
     topResults = rec.recommendRestaurants()
     end = time.clock()
-    print 'Component #4 took: ' + str(end-start) + 'seconds'
+    print 'Component #4 took: ' + str(end-start) + 'seconds\n'
 
     #display the top-N results
     print 'Recommending to: ' + userid
