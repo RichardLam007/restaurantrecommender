@@ -47,6 +47,7 @@ def performSetup():
 def main():
     '''
     Requests for user input to begin the recommendation process and displays the top-N recommended restaurants
+    For testing purposes the userID "JkeCKyEaQlbLd9uZYl4DjA" (which is in the dataset) can be used
     '''
     ext, restManager = performSetup()  #perform the necessary setup for the recommendation
     
@@ -58,8 +59,6 @@ def main():
     if userid not in userDict:
         print '\nThe user could not be found!'
         return
-
-    userid = "JkeCKyEaQlbLd9uZYl4DjA"  #used for testing
     
     #Component #4: use the previous results to determine the top-N results to recommend to the user
     print 'Performing Component #4'
