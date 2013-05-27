@@ -21,7 +21,7 @@ class ComponentThree:
         '''
         return the computed addition of the two given attributes/reasons
         '''
-        if base < 0:
+        if base < 1:
             return additive
         return base + additive/(sqrt(abs(base)))
         
