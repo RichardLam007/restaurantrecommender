@@ -50,13 +50,15 @@ class Restaurant:
         '''
         return the computed addition of the two given attributes/reasons
         '''
+        if base < 1:
+            return additive
         return base + additive/(sqrt(abs(base)))
     
     def printAttributes(self):
         '''
         prints the associative array of attributes
         '''
-        for attribute in self.attributes.iterkeys:
+        for attribute in self.attributes.iterkeys():
             print attribute + " => " + self.attributes[attribute]
             
         
@@ -65,10 +67,11 @@ class Restaurant:
         appends the new attribute list to the existing one and returns a new one
         if no existing value for that attribute, set it
         '''
-        for newAttribute in newAttributes.iterkeys:
+        for newAttribute in newAttributes.iterkeys():
             if newAttribute in self.attributes:
                 self.attributes[newAttribute] = self.additionFormula(self.attributes[newAttribute], newAttributes[newAttribute])
             else:
                 self.attributes[newAttribute] = newAttributes[newAttribute]
 
+    
         
