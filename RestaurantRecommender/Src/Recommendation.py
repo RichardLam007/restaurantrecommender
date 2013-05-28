@@ -4,6 +4,7 @@ Created on May 24, 2013
 @author: Kathy
 '''
 import heapq
+from math import sqrt
 
 class Recommendation:
     '''
@@ -81,11 +82,35 @@ class Recommendation:
             restObj = self.restManager.returnRestaurant(bussid)  #get the restaurant object for this restaurant
             if restObj is None:
                 continue
-            attributeDict.update(restObj.returnAttributes())  #get the attributes of the restaurant
-            reasonDict.update(restObj.returnReasons())  #get the reasons for going to the restaurant
+
+            objAttriDict = restObj.returnAttributes() #get the attributes of the restaurant
+            for attri in objAttriDict:
+                #if the attribute already exists then add the new value to the overall value of the attribute
+                if attri in attributeDict:
+                    attributeDict[attri] = self.additionFormula(attributeDict[attri], objAttriDict[attri])
+                else:
+                    attributeDict[attri] = objAttriDict[attri]
+            
+            objReasonDict = restObj.returnReasons() #get the reasons for going to the restaurant
+            for reason in objReasonDict:
+                #if the reason already exists then add the new value to the overall value of the reason
+                if reason in reasonDict:
+                    reasonDict[reason] = self.additionFormula(reasonDict[reason], objReasonDict[reason])
+                else:
+                    reasonDict[reason] = objReasonDict[reason]
+            
             categoryList = list(set(categoryList + restObj.returnRestaurantData('categories')))  #get the restaurant's categories
         
         return attributeDict, reasonDict, categoryList
+
+
+    def additionFormula(self, base, additive):
+        '''
+        return the computed addition of the two given attributes/reasons
+        '''
+        if base < 1:
+            return additive
+        return base + additive/(sqrt(abs(base)))
 
   
     def recommendRestaurants(self):
