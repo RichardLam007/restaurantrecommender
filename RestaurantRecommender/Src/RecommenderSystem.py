@@ -41,8 +41,8 @@ def performSetup():
     restManager = RestaurantManager.RestaurantManager(ext, restaurantPath, True)
     #restManager.createSets()  #create the needed RestaurantSet and Restaurant objects
     compThree = ComponentThree.ComponentThree(ext, vocab, restManager)
-    compThree.processReviews(30)  #fill in the objects with information
-    restManager.debug()
+    compThree.processReviews()  #fill in the objects with information
+    restManager.storeSet()
     
     end = time.clock()
     print 'Component #3 took: ' + str(end-start) + 'seconds\n'
