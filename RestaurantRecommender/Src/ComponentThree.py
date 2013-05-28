@@ -76,12 +76,12 @@ class ComponentThree:
         ################
         return adjectives, reasons
         
-    def processReviews(self, maxNumber):
+    def processReviews(self, maxNumber = 0):
         '''
         Loops through all available reviews from extraction object, processes them, and pushes results into the appropriate restaurant objects
         '''
         reviewCount = 0
-        while reviewCount < maxNumber:
+        while reviewCount < maxNumber or maxNumber == 0:
             reviewCount += 1
             print "processing review count: " + str(reviewCount)
             review = self.extraction.nextReview()
